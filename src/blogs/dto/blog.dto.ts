@@ -4,11 +4,6 @@ import { BaseDto } from 'src/common/base.dto';
 
 export class BlogDto extends BaseDto {
   @IsNotEmpty()
-  @IsString()
-  @Expose()
-  id: string;
-
-  @IsNotEmpty()
   @Expose()
   @IsString()
   title: string;
@@ -16,6 +11,7 @@ export class BlogDto extends BaseDto {
   @Expose()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   image: string;
 
   @IsNotEmpty()

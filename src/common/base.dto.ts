@@ -8,7 +8,7 @@ export abstract class BaseDto {
   createdAt: Date;
 
   @Expose()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   static plainToClass<T>(this: new (...args: any[]) => T, obj: T): T {
     return plainToClass(this, obj, { excludeExtraneousValues: true });

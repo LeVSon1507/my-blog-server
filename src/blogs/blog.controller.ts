@@ -1,45 +1,28 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
-import { BlogDto } from './dto/blog.dto';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BlogService } from './blog.service';
+import { Blog } from './entity';
+import { ResponseMessage } from 'src/customDecorator';
 
 @Controller('blogs')
 export class BlogController {
-  // constructor(private moduleRef: ModuleRef) {}
-  constructor(
-    @Inject('BLOG_SERVICE_MY_BLOG') private readonly blogService: BlogService,
-  ) {}
+  constructor(private readonly blogService: BlogService) {}
 
   @Get()
+  @ResponseMessage('Blog records fetched Succesfully')
   getAllBlogs() {
-    return [
-      {
-        id: '1',
-        title: 'title test',
-        image: 'image test',
-        content: 'content test',
-        description: 'description test',
-        body: 'body test',
-      },
-      {
-        id: '2',
-        title: 'title test',
-        image: 'image test',
-        content: 'content test',
-        description: 'description test',
-        body: 'body test',
-      },
-    ];
+    return this.blogService.getAllBlog();
   }
 
   @Post()
-  createBlog(@Body() blog: BlogDto): BlogDto {
-    // TODO: note using ref way
-    // const blogService = this.moduleRef.get('BLOG_SERVICE_MY_BLOG');
+  createBlog(@Body() blog: Blog): Promise<Blog> {
+    blog.createdAt = new Date();
+    blog.updatedAt = new Date();
+
     return this.blogService.createBlog(blog);
   }
 
   @Get(':id')
-  getBlogById(@Param('id') id: number) {
-    return id;
+  getBlogById(@Param('id') id: string): Promise<Blog> {
+    return this.blogService.getBlog(id);
   }
 }

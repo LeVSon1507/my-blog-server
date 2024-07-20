@@ -1,12 +1,37 @@
-import { Body } from '@nestjs/common';
-import { BlogDto } from './dto/blog.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { BlogDto } from './dto';
+import { Repository } from 'typeorm';
+import { Blog } from './entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
+@Injectable()
 export class BlogService {
-  createBlog(@Body() blog: BlogDto): BlogDto {
-    blog.createdAt = new Date();
-    blog.id = '1';
-    blog.updatedAt = new Date();
+  constructor(
+    @InjectRepository(Blog) private blogRepository: Repository<Blog>,
+  ) {}
 
-    return BlogDto.plainToClass(blog);
+  async createBlog(blog: BlogDto): Promise<BlogDto> {
+    const newBlog = this.blogRepository.create(blog);
+    await this.blogRepository.save(newBlog);
+
+    return newBlog;
+  }
+
+  async getAllBlog(): Promise<Blog[]> {
+    return await this.blogRepository.find();
+  }
+
+  async getBlog(id: string): Promise<Blog> {
+    const blog = await this.blogRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!blog) {
+      throw new NotFoundException(`Blog with ${id} not found!`);
+    }
+
+    return blog;
   }
 }
