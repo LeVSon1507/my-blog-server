@@ -15,10 +15,10 @@ export class Blog {
   content: string;
 
   @Column()
-  description: string;
+  description?: string;
 
   @Column()
-  createdAt: Date;
+  createdAt?: Date;
 
   @Column()
   updatedAt?: Date;

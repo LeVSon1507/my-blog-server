@@ -5,7 +5,7 @@ export abstract class BaseDto {
   id: string;
 
   @Expose()
-  createdAt: Date;
+  createdAt?: Date;
 
   @Expose()
   updatedAt?: Date;

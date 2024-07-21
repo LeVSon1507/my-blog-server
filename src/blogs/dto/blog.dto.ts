@@ -22,7 +22,7 @@ export class BlogDto extends BaseDto {
   @IsString()
   @Expose()
   @IsOptional()
-  description: string;
+  description?: string;
 
   @IsString()
   @Expose()
