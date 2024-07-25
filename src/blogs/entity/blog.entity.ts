@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/auth/entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Blog {
@@ -16,6 +17,9 @@ export class Blog {
 
   @Column()
   description?: string;
+
+  @ManyToOne(() => User, (user) => user.blogs)
+  user: User;
 
   @Column()
   createdAt?: Date;

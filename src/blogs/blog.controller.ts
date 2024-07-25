@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { Blog } from './entity';
 import { ResponseMessage } from 'src/customDecorator';
-import { GetBlogsQueryDto } from './dto';
+import { BlogDto, GetBlogsQueryDto } from './dto';
 
 @Controller('blogs')
 export class BlogController {
@@ -18,7 +18,7 @@ export class BlogController {
 
   @Post()
   @ResponseMessage('Blog records created successfully')
-  createBlog(@Body() blog: Blog): Promise<Blog> {
+  createBlog(@Body() blog: Blog): Promise<BlogDto> {
     blog.createdAt = new Date();
     blog.updatedAt = new Date();
 
